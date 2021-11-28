@@ -1,0 +1,44 @@
+<div class="container-fluid">
+  
+  <h5><span class="badge bg-secondary">1</span>&nbsp; <b>Rechercher une adresse</b></h5>
+  <form  (ngSubmit)="onSubmit()" [formGroup]="adresseForm" >
+    
+    <div class="mb-3">
+      <label for="address" class="form-label" >
+        Saisir l'adresse de livraison
+      </label>
+      <input id="address" type="text" formControlName="address" class="form-control">
+      <div id="helpAd" class="form-text">ex: '10 rue des camélias 31000 Toulouse'</div>
+    </div>
+
+  <!-- <div>
+    <label for="cp">
+      Code postal (option)
+    </label>
+    <input id="cp" type="text" formControlName="cp">
+  </div>
+-->
+<button class="button" class="btn btn-primary" type="submit">Rechercher <span class="badge rounded-pill bg-secondary">{{nbAdresses()}}</span></button>
+</form>
+<br/>
+<div *ngIf="isResultatVisible()">
+
+<h5><span class="badge bg-secondary">1.2</span>&nbsp; <b>Résultat de la recherche</b>  </h5>
+<div class="mb-3">
+  <label for="address" class="form-label" >Sélectionner l'adresse à ajouter à votre liste:</label>
+    <select (change)="selectChangeHandler($event)" class="form-select" >
+      <option *ngFor="let adresse of adressesFounded; let i=index"  value="{{i}}" >{{adresse.label}}</option>
+    </select>
+    
+   
+    <!--   <button *ngIf="adresse!=null" class="button" (click)="Valider()" >valider</button> -->
+</div>
+
+<h5><span class="badge bg-secondary">1.3</span>&nbsp; <b>Adresse sélectionnée</b></h5>
+<div class="mb-3">
+    <div class="alert alert-secondary"> {{adresse.label}} </div>
+</div>
+ <button type="button" class="btn btn-primary" (click)="ajouterAdresse()">Ajouter à la liste</button>
+</div>
+</div>
+<br/>

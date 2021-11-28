@@ -1,0 +1,61 @@
+<div class="container">
+    <h5><span class="badge bg-secondary">2</span>&nbsp; <b>Liste de vos adresses saisies</b></h5>
+    <table class="table table-striped table-bordered">
+        <thead>
+            <tr>
+                <th>Adresse</th>
+                <!-- <th>Code postale</th> -->
+                <!-- <th>Longitude</th>
+                <th>Lattitude</th> -->
+                <th><button type="button" (click)="deleteAll()" class="btn btn-primary btn-sm">Supprimer la liste</button></th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr *ngFor="let city of cities; let i=index">
+                <td><span *ngIf="i==0"><i>(Départ) </i></span>{{city.label}}</td>
+                <!-- <td>{{city.codepostale}}</td> -->
+                <!-- <td>{{city.long}}</td>
+                <td>{{city.lat}}</td> -->
+                <td> <button type="button" class="btn btn-primary btn-sm" (click)="deleteAdresse(i)" >Supprimer</button></td>
+            </tr>
+        </tbody>
+    </table>
+
+    <!-- choisir l'adresse de départ -->
+    <h5><span class="badge bg-secondary">3</span>&nbsp; <b>Adresse de départ et de retour</b></h5>
+    <label class="form-label" >Sélectionner l'adresse de départ et de retour:</label>
+    <select (change)="selectChangeHandler($event)" class="form-select" >
+      <option *ngFor="let depart of cities; let i=index"  value="{{i}}" >{{depart.label}}</option>
+    </select>
+    <hr/>
+</div>
+<div class="container" *ngIf="cities.length>1">
+
+    <button   type="button" class="btn btn-primary" (click)="calculer()" >Calculer l'itinéraire le plus rapide</button>
+</div>
+
+
+<!-- affichage du chemin trié -->
+<h3 *ngIf="sortedCities.length>1"  class="p-3 text-center primary">Parcours optimisé</h3>
+<div *ngIf="sortedCities.length>1" class="container">
+    <table class="table table-striped table-bordered">
+        <thead>
+            <tr>
+                <th>Ordre</th>
+                <th>Adresse</th>
+                <!-- <th>Longitude</th>
+                <th>Lattitude</th> -->
+            </tr>
+        </thead>
+        <tbody>
+            <tr  *ngFor="let city of sortedCities; let i=index" >
+                <td>{{i}}</td>
+                <td>{{city.label}}</td>
+                <!-- <td>{{city.long}}</td>
+                <td>{{city.lat}}</td> -->
+            </tr>
+        </tbody>
+    </table>
+</div>
+<!-- Parcours sur la carto -->
+<app-carto *ngIf="sortedCities.length>1" class="map" [adresses]="sortedCities" [zoom]="6" (mapReady)="onMapReady($event)"></app-carto>
